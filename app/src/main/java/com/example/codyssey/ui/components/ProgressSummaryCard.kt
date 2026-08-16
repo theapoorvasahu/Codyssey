@@ -56,7 +56,9 @@ fun ProgressSummaryCard(
                 )
                 Spacer(Modifier.height(8.dp))
                 Row(
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment =
+
+                        Alignment.CenterVertically
                 ){
                     LinearProgressIndicator(
                         progress = { progress / 100f },
