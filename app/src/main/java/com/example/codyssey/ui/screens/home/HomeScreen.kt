@@ -1,17 +1,15 @@
 package com.example.codyssey.ui.screens.home
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.codyssey.ui.components.ProgressSummaryCard
@@ -19,61 +17,59 @@ import com.example.codyssey.ui.components.QuestCard
 import com.example.codyssey.ui.theme.CodysseyTheme
 
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    innerPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
 
-    Scaffold(
-        topBar = {
 
-
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "Codyssey"
-                    )
-                }
-            )
-
-        }
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(innerPadding)
+            .padding(horizontal = 16.dp),
+        contentPadding = PaddingValues(
+            top = 20.dp,
+            bottom = 20.dp
+        ),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-
-            innerPadding ->
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp)) {
-
+        item {
+            Text(
+                text = "Home",
+                style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.Bold
+            )
+        }
+        item {
             ProgressSummaryCard(
                 streak = 12,
                 progress = 34,
                 currentTrack = "Android Development"
             )
-
-            Spacer(Modifier.height(16.dp))
-
+        }
+        item{
             Text(text = "Today's Quest",
-                style = MaterialTheme.typography.titleMedium)
-
-            Spacer(Modifier.height(16.dp))
-
+                style = MaterialTheme.typography.titleLarge)
+        }
+        item{
             QuestCard(
                 title = "Complete Kotlin Functions",
                 description = "Finish today's lesson",
                 onContinue = { }
             )
-
         }
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
 fun HomeScreenPreview() {
     CodysseyTheme {
-        HomeScreen()
+        HomeScreen(
+            innerPadding = PaddingValues()
+        )
     }
 }

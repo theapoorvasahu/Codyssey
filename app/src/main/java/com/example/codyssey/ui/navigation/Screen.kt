@@ -11,8 +11,8 @@ sealed class Screen(
 
     data object Journey : Screen("journey")
 
-    data object Projects : Screen("projects")
-
     data object Profile : Screen("profile")
+
+    data object Projects : Screen("projects")
 
 }

@@ -1,15 +1,9 @@
 package com.example.codyssey.ui
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.rememberNavController
-import com.example.codyssey.ui.navigation.AppNavHost
-
+import com.example.codyssey.ui.screens.MainScreen
 
 @Composable
-fun CodysseyApp(){
-    val navController = rememberNavController()
-
-    AppNavHost(
-        navController = navController
-    )
+fun CodysseyApp() {
+    MainScreen()
 }
