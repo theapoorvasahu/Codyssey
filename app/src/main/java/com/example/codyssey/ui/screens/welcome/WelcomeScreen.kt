@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,16 +32,18 @@ fun WelcomeScreen(
         horizontalAlignment =  Alignment.CenterHorizontally
     ) {
         Text(text = "Codyssey",
-            style = MaterialTheme.typography.headlineLarge)
-        Spacer(modifier = Modifier.height(20.dp))
-        Text(text = "Become the engineer you want to be.",
+            style = MaterialTheme.typography.displayMedium)
+        Spacer(modifier = Modifier.height(32.dp))
+        Text(text = "Learn. Build. Grow.\n" +
+                "One quest at a time.",
             modifier = Modifier.fillMaxWidth(),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center)
-        Spacer(modifier = Modifier.height(20.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         Button(
             onClick = onGetStarted,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp)
         ) {
             Text("Get Started")
         }
