@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.codyssey.ui.components.ProgressSummaryCard
 import com.example.codyssey.ui.components.QuestCard
 import com.example.codyssey.ui.theme.CodysseyTheme
@@ -23,6 +24,8 @@ fun HomeScreen(
     modifier: Modifier = Modifier
 ) {
 
+    val viewModel: HomeViewModel = viewModel()
+    val uiState = viewModel.uiState
 
     LazyColumn(
         modifier = modifier
@@ -44,9 +47,9 @@ fun HomeScreen(
         }
         item {
             ProgressSummaryCard(
-                streak = 12,
-                progress = 34,
-                currentTrack = "Android Development"
+                streak = uiState.streak,
+                progress = uiState.progress,
+                currentTrack = uiState.currentTrack
             )
         }
         item{
@@ -55,9 +58,11 @@ fun HomeScreen(
         }
         item{
             QuestCard(
-                title = "Complete Kotlin Functions",
-                description = "Finish today's lesson",
-                onContinue = { }
+                title = uiState.questTitle,
+                description = uiState.questDescription,
+                onContinue = {
+                    viewModel.completeLesson()
+                }
             )
         }
     }
