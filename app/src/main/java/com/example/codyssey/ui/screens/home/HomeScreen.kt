@@ -57,13 +57,17 @@ fun HomeScreen(
                 style = MaterialTheme.typography.titleLarge)
         }
         item{
-            QuestCard(
-                title = uiState.questTitle,
-                description = uiState.questDescription,
-                onContinue = {
-                    viewModel.completeLesson()
-                }
-            )
+            uiState.quest?.let { quest ->
+
+                QuestCard(
+                    title = quest.title,
+                    description = quest.description,
+                    onContinue = {
+                        viewModel.completeLesson()
+                    }
+                )
+
+            }
         }
     }
 }
