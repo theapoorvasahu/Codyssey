@@ -4,24 +4,27 @@ import com.example.codyssey.model.Quest
 
 object FakeQuestRepository {
 
-    private val quests = listOf(
+    fun getQuests(): List<Quest> {
+        return listOf(
+            Quest(
+                id = 3,
+                title = "Build ViewModel",
+                description = "Move UI state into ViewModel",
+                xpReward = 20
+            ),
+            Quest(
+                id = 4,
+                title = "Master State Hoisting",
+                description = "Lift state to the parent composable",
+                xpReward = 15
+            ),
 
-        Quest(
-            id = 1,
-            title = "Complete Kotlin Functions",
-            description = "Finish today's lesson",
-            xpReward = 10
-        ),
-
-        Quest(
-            id = 2,
-            title = "Learn State",
-            description = "Understand remember and mutableStateOf",
-            xpReward = 20
+            Quest(
+                id = 5,
+                title = "Learn Repository Pattern",
+                description = "Separate data layer from UI",
+                xpReward = 30
+            )
         )
-
-    )
-    fun getTodaysQuest(): Quest {
-        return quests.first()
     }
 }

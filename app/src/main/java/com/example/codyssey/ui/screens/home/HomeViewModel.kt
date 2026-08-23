@@ -8,13 +8,12 @@ import com.example.codyssey.data.FakeQuestRepository
 
 class HomeViewModel : ViewModel() {
 
-    private val currentQuest = FakeQuestRepository.getTodaysQuest()
+    private val allQuests = FakeQuestRepository.getQuests()
     private val initialState = HomeUiState(
         xp = 34,
         streak = 12,
-        progress = 34,
         currentTrack = "Android Development",
-        quest = currentQuest
+        quests = allQuests
     )
 
     var uiState by mutableStateOf(initialState)
@@ -27,9 +26,11 @@ class HomeViewModel : ViewModel() {
     }
 
     fun completeLesson() {
+        val reward = uiState.quests.firstOrNull()?.xpReward ?: 0
+
         uiState = uiState.copy(
             streak = uiState.streak + 1,
-            xp = uiState.xp + (uiState.quest?.xpReward ?: 0),
+            xp = uiState.xp + reward,
             progress = minOf(uiState.progress + 5, 100)
         )
     }

@@ -7,5 +7,5 @@ data class HomeUiState(
     val streak: Int = 0,
     val progress: Int = 0,
     val currentTrack: String = "",
-    val quest: Quest? = null
+    val quests: List<Quest> = emptyList()
 )

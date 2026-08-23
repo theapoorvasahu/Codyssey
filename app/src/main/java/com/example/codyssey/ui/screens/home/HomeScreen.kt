@@ -16,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.codyssey.ui.components.ProgressSummaryCard
 import com.example.codyssey.ui.components.QuestCard
 import com.example.codyssey.ui.theme.CodysseyTheme
+import androidx.compose.foundation.lazy.items
 
 
 @Composable
@@ -56,18 +57,16 @@ fun HomeScreen(
             Text(text = "Today's Quest",
                 style = MaterialTheme.typography.titleLarge)
         }
-        item{
-            uiState.quest?.let { quest ->
+        items(uiState.quests) { quest ->
 
-                QuestCard(
-                    title = quest.title,
-                    description = quest.description,
-                    onContinue = {
-                        viewModel.completeLesson()
-                    }
-                )
+            QuestCard(
+                title = quest.title,
+                description = quest.description,
+                onContinue = {
+                    viewModel.completeLesson()
+                }
+            )
 
-            }
         }
     }
 }
