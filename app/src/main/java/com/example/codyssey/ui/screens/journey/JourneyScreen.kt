@@ -25,20 +25,18 @@ import com.example.codyssey.ui.theme.CodysseyTheme
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.text.font.FontWeight
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.codyssey.data.FakeLessonRepository
 import com.example.codyssey.ui.components.JourneyPath
+import com.example.codyssey.ui.screens.lesson.LessonViewModel
 
 @Composable
 fun JourneyScreen(
     innerPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
-    val lessons = listOf(
-        Lesson("Variables", LessonState.Completed),
-        Lesson("Functions", LessonState.Completed),
-        Lesson("OOP", LessonState.Current),
-        Lesson("Collections", LessonState.Locked),
-        Lesson("Coroutines", LessonState.Locked)
-    )
+    val viewModel: LessonViewModel = viewModel()
+    val uiState = viewModel.uiState
 
     val nodeCenters = remember {
         mutableStateListOf<Offset>()
@@ -76,7 +74,7 @@ fun JourneyScreen(
                 )
             }
 
-            itemsIndexed(lessons) { index, lesson ->
+            itemsIndexed(uiState.lessons) { index, lesson ->
 
                 Box(
                     modifier = Modifier
