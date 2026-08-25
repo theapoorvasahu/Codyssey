@@ -30,7 +30,7 @@ object FakeLessonRepository {
             title = "OOP",
             content = "Learn Kotlin classes and objects.",
             xpReward = 10,
-            state = LessonState.Current
+            state = LessonState.Locked
         ),
 
         Lesson(

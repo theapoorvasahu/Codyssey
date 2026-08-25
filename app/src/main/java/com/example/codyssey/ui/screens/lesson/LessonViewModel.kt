@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.codyssey.data.FakeLessonRepository
+import com.example.codyssey.model.LessonState
 
 class LessonViewModel : ViewModel() {
 
@@ -14,4 +15,27 @@ class LessonViewModel : ViewModel() {
 
     var uiState by mutableStateOf(initialState)
         private set
+
+    fun completeLesson(id: Int) {
+
+        val updatedLessons =
+            uiState.lessons.map { lesson ->
+
+                when {
+                    lesson.id == id ->
+                        lesson.copy(state = LessonState.Completed)
+
+                    lesson.id == id + 1 ->
+                        lesson.copy(state = LessonState.Current)
+
+                    else ->
+                        lesson
+                }
+
+            }
+
+        uiState = uiState.copy(
+            lessons = updatedLessons
+        )
+    }
 }
