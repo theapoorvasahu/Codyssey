@@ -30,6 +30,7 @@ import com.example.codyssey.ui.components.RoadmapNode
 import com.example.codyssey.ui.screens.lesson.LessonViewModel
 import com.example.codyssey.ui.theme.CodysseyTheme
 import com.example.codyssey.ui.navigation.Screen
+import androidx.compose.runtime.collectAsState
 
 @Composable
 fun JourneyScreen(
@@ -39,7 +40,8 @@ fun JourneyScreen(
     modifier: Modifier = Modifier
 ){
 
-    val uiState = lessonViewModel.uiState
+
+    val uiState = lessonViewModel.uiState.collectAsState().value
 
     val nodeCenters = remember {
         mutableStateListOf<Offset>()

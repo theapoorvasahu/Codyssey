@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.collectAsState
 
 @Composable
 fun LessonScreen(
@@ -25,8 +26,8 @@ fun LessonScreen(
     modifier: Modifier = Modifier
 ){
 
-
-    val lesson = lessonViewModel.getLesson(lessonId)
+    val uiState = lessonViewModel.uiState.collectAsState().value
+    val lesson = uiState.lessons.find { it.id == lessonId }
 
     LazyColumn(
         modifier = modifier

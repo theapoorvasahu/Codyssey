@@ -1,11 +1,12 @@
 package com.example.codyssey.data
 
+import com.example.codyssey.domain.LessonRepository
 import com.example.codyssey.model.Lesson
 import com.example.codyssey.model.LessonState
 
-object FakeLessonRepository {
+object FakeLessonRepository : LessonRepository {
 
-    val lessons = listOf(
+    private val lessons = listOf(
 
         Lesson(
             id = 1,
@@ -51,4 +52,33 @@ object FakeLessonRepository {
             state = LessonState.Locked
         )
     )
+
+    override fun getLessons(): List<Lesson> {
+        return lessons
+    }
+
+    override fun getLesson(id: Int): Lesson? {
+        return lessons.find { it.id == id }
+    }
+
+    override fun completeLesson(
+        lessons: List<Lesson>,
+        id: Int
+    ): List<Lesson>{
+        return lessons.map { lesson ->
+
+            when {
+                lesson.id == id ->
+                    lesson.copy(state = LessonState.Completed)
+
+                lesson.id == id + 1 ->
+                    lesson.copy(state = LessonState.Current)
+
+                else ->
+                    lesson
+            }
+
+        }
+
+    }
 }
