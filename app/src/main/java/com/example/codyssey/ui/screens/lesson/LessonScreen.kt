@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -19,12 +18,15 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun LessonScreen(
+    lessonId: Int,
+    lessonViewModel: LessonViewModel,
     innerPadding: PaddingValues,
+    onLessonCompleted: () -> Unit,
     modifier: Modifier = Modifier
-) {
+){
 
-    val viewModel: LessonViewModel = viewModel()
-    val uiState = viewModel.uiState
+
+    val lesson = lessonViewModel.getLesson(lessonId)
 
     LazyColumn(
         modifier = modifier
@@ -43,29 +45,39 @@ fun LessonScreen(
             )
         }
 
-        items(uiState.lessons) { lesson ->
+        item {
 
-            Card {
+            lesson?.let {
 
-                Column(
-                    modifier = Modifier.padding(16.dp)
-                ) {
+                Card {
 
-                    Text(
-                        lesson.title,
-                        style = MaterialTheme.typography.titleLarge
-                    )
-
-                    Text(
-                        lesson.content,
-                        modifier = Modifier.padding(top = 8.dp)
-                    )
-
-                    Button(
-                        onClick = { },
-                        modifier = Modifier.padding(top = 12.dp)
+                    Column(
+                        modifier = Modifier.padding(16.dp)
                     ) {
-                        Text("Start Lesson")
+
+                        Text(
+                            text = it.title,
+                            style = MaterialTheme.typography.titleLarge
+                        )
+
+                        Text(
+                            text = it.content,
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+
+                        Text(
+                            text = "XP Reward: ${it.xpReward}",
+                            modifier = Modifier.padding(top = 8.dp)
+                        )
+
+                        Button(
+                            onClick = {
+                                lessonViewModel.completeLesson(it.id)
+                                onLessonCompleted()
+                            }
+                        ) {
+                            Text("Complete Lesson")
+                        }
                     }
                 }
             }

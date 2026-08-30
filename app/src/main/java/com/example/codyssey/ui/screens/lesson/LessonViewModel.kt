@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.codyssey.data.FakeLessonRepository
+import com.example.codyssey.model.Lesson
 import com.example.codyssey.model.LessonState
 
 class LessonViewModel : ViewModel() {
@@ -37,5 +38,8 @@ class LessonViewModel : ViewModel() {
         uiState = uiState.copy(
             lessons = updatedLessons
         )
+    }
+    fun getLesson(id: Int): Lesson? {
+        return uiState.lessons.find { it.id == id }
     }
 }

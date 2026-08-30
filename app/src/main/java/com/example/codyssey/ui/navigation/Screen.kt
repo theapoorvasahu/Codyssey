@@ -15,4 +15,11 @@ sealed class Screen(
 
     data object Projects : Screen("projects")
 
+    data object Lesson : Screen("lesson/{lessonId}") {
+
+        fun createRoute(lessonId: Int): String {
+            return "lesson/$lessonId"
+        }
+    }
+
 }

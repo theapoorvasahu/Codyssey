@@ -22,19 +22,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.codyssey.model.LessonState
 import com.example.codyssey.ui.components.JourneyPath
 import com.example.codyssey.ui.components.RoadmapNode
 import com.example.codyssey.ui.screens.lesson.LessonViewModel
 import com.example.codyssey.ui.theme.CodysseyTheme
+import com.example.codyssey.ui.navigation.Screen
 
 @Composable
 fun JourneyScreen(
+    navController: NavHostController,
+    lessonViewModel: LessonViewModel,
     innerPadding: PaddingValues,
     modifier: Modifier = Modifier
-) {
-    val viewModel: LessonViewModel = viewModel()
-    val uiState = viewModel.uiState
+){
+
+    val uiState = lessonViewModel.uiState
 
     val nodeCenters = remember {
         mutableStateListOf<Offset>()
@@ -105,7 +110,9 @@ fun JourneyScreen(
                         state = lesson.state,
                         onClick = {
                             if (lesson.state == LessonState.Current) {
-                                viewModel.completeLesson(lesson.id)
+                                navController.navigate(
+                                    Screen.Lesson.createRoute(lesson.id)
+                                )
                             }
                         }
                     )
@@ -121,7 +128,11 @@ fun JourneyScreen(
 @Composable
 fun JourneyScreenPreview() {
     CodysseyTheme {
+        val navController = rememberNavController()
+        val lessonViewModel: LessonViewModel = viewModel()
         JourneyScreen(
+            navController = navController,
+            lessonViewModel = lessonViewModel,
             innerPadding = PaddingValues()
         )
     }
