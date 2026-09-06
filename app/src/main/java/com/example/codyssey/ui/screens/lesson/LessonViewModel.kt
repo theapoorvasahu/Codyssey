@@ -8,10 +8,9 @@ import com.example.codyssey.data.FakeLessonRepository
 import com.example.codyssey.domain.LessonRepository
 import com.example.codyssey.model.Lesson
 
-class LessonViewModel : ViewModel() {
-
-    private val repository: LessonRepository = FakeLessonRepository
-
+class LessonViewModel(
+    private val repository: LessonRepository
+) : ViewModel() {
     private val initialState = LessonUiState(
         lessons = repository.getLessons()
     )

@@ -6,10 +6,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.codyssey.data.FakeLessonRepository
 import com.example.codyssey.ui.screens.home.HomeScreen
 import com.example.codyssey.ui.screens.journey.JourneyScreen
 import com.example.codyssey.ui.screens.lesson.LessonScreen
 import com.example.codyssey.ui.screens.lesson.LessonViewModel
+import com.example.codyssey.ui.screens.lesson.LessonViewModelFactory
 import com.example.codyssey.ui.screens.profile.ProfileScreen
 import com.example.codyssey.ui.screens.projects.ProjectsScreen
 import com.example.codyssey.ui.screens.welcome.WelcomeScreen
@@ -19,7 +21,12 @@ fun AppNavHost(
     navController: NavHostController,
     innerPadding: PaddingValues
 ){
-    val lessonViewModel: LessonViewModel = viewModel()
+    val repository = FakeLessonRepository
+    val factory = LessonViewModelFactory(repository)
+    val lessonViewModel: LessonViewModel =
+        viewModel(
+            factory = factory
+        )
     NavHost(
         navController = navController,
         startDestination = Screen.Welcome.route
