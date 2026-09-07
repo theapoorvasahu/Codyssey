@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.codyssey.data.FakeLessonRepository
+import com.example.codyssey.di.DefaultAppContainer
 import com.example.codyssey.ui.screens.home.HomeScreen
 import com.example.codyssey.ui.screens.journey.JourneyScreen
 import com.example.codyssey.ui.screens.lesson.LessonScreen
@@ -21,8 +22,8 @@ fun AppNavHost(
     navController: NavHostController,
     innerPadding: PaddingValues
 ){
-    val repository = FakeLessonRepository
-    val factory = LessonViewModelFactory(repository)
+    val container = DefaultAppContainer()
+    val factory = LessonViewModelFactory(container.lessonRepository)
     val lessonViewModel: LessonViewModel =
         viewModel(
             factory = factory
