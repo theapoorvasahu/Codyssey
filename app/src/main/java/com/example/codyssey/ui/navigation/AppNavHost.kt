@@ -2,32 +2,23 @@ package com.example.codyssey.ui.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.codyssey.data.FakeLessonRepository
-import com.example.codyssey.di.DefaultAppContainer
 import com.example.codyssey.ui.screens.home.HomeScreen
 import com.example.codyssey.ui.screens.journey.JourneyScreen
 import com.example.codyssey.ui.screens.lesson.LessonScreen
 import com.example.codyssey.ui.screens.lesson.LessonViewModel
-import com.example.codyssey.ui.screens.lesson.LessonViewModelFactory
 import com.example.codyssey.ui.screens.profile.ProfileScreen
 import com.example.codyssey.ui.screens.projects.ProjectsScreen
 import com.example.codyssey.ui.screens.welcome.WelcomeScreen
-
+import androidx.hilt.navigation.compose.hiltViewModel
 @Composable
 fun AppNavHost(
     navController: NavHostController,
     innerPadding: PaddingValues
 ){
-    val container = DefaultAppContainer()
-    val factory = LessonViewModelFactory(container.lessonRepository)
-    val lessonViewModel: LessonViewModel =
-        viewModel(
-            factory = factory
-        )
+    val lessonViewModel: LessonViewModel = hiltViewModel()
     NavHost(
         navController = navController,
         startDestination = Screen.Welcome.route
