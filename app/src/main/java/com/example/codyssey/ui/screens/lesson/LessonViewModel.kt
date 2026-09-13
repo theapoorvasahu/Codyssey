@@ -28,15 +28,11 @@ class LessonViewModel @Inject constructor(
 
     fun completeLesson(id: Int) {
 
-        val updatedLessons =
-            repository.completeLesson(
-                lessons = _uiState.value.lessons,
-                id = id
-            )
+        repository.completeLesson(id)
 
         _uiState.value =
             _uiState.value.copy(
-                lessons = updatedLessons
+                lessons = repository.getLessons()
             )
     }
 

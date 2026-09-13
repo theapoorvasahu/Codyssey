@@ -8,8 +8,5 @@ interface LessonRepository {
 
     fun getLesson(id: Int): Lesson?
 
-    fun completeLesson(
-        lessons: List<Lesson>,
-        id: Int
-    ): List<Lesson>
+    fun completeLesson(id: Int)
 }

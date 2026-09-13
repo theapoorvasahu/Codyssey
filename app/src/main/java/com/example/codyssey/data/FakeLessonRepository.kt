@@ -6,7 +6,7 @@ import com.example.codyssey.model.LessonState
 
 object FakeLessonRepository : LessonRepository {
 
-    private val lessons = listOf(
+    private var lessons = listOf(
 
         Lesson(
             id = 1,
@@ -61,11 +61,9 @@ object FakeLessonRepository : LessonRepository {
         return lessons.find { it.id == id }
     }
 
-    override fun completeLesson(
-        lessons: List<Lesson>,
-        id: Int
-    ): List<Lesson>{
-        return lessons.map { lesson ->
+    override fun completeLesson(id: Int) {
+
+        lessons = lessons.map { lesson ->
 
             when {
                 lesson.id == id ->
