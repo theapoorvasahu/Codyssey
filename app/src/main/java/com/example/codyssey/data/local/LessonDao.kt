@@ -1,20 +1,28 @@
 package com.example.codyssey.data.local
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 
 @Dao
 interface LessonDao {
+
     @Query("SELECT * FROM lessons")
-    fun getLessons(): List<LessonEntity>
+    suspend fun getLessons(): List<LessonEntity>
 
     @Query("SELECT * FROM lessons WHERE id = :id")
-    fun getLesson(id: Int): LessonEntity?
+    suspend fun getLesson(id: Int): LessonEntity?
+
+    @Query("SELECT COUNT(*) FROM lessons")
+    suspend fun getLessonCount(): Int
 
     @Update
-    fun updateLesson(lesson: LessonEntity)
+    suspend fun updateLesson(lesson: LessonEntity)
 
-    @Insert
-    fun insertLesson(lesson: LessonEntity)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertLessons(
+        lessons: List<LessonEntity>
+    )
+
 }

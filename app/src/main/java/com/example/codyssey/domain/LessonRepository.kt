@@ -4,9 +4,9 @@ import com.example.codyssey.model.Lesson
 
 interface LessonRepository {
 
-    fun getLessons(): List<Lesson>
+    suspend fun getLessons(): List<Lesson>
 
-    fun getLesson(id: Int): Lesson?
+    suspend fun getLesson(id: Int): Lesson?
 
-    fun completeLesson(id: Int)
+    suspend fun completeLesson(id: Int)
 }
