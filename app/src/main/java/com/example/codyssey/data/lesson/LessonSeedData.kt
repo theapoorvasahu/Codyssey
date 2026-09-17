@@ -1,9 +1,9 @@
-package com.example.codyssey.data
+package com.example.codyssey.data.lesson
 
 import com.example.codyssey.model.Lesson
 import com.example.codyssey.model.LessonState
 
-object SeedData {
+object LessonSeedData {
 
     val defaultLessons = listOf<Lesson>(
         Lesson(

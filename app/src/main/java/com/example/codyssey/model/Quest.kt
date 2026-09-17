@@ -5,5 +5,6 @@ data class Quest(
     val title: String,
     val description: String,
     val xpReward: Int,
+    val unlocked: Boolean,
     val completed: Boolean = false
 )

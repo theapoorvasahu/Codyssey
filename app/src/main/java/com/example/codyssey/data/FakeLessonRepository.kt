@@ -1,12 +1,13 @@
 package com.example.codyssey.data
 
+import com.example.codyssey.data.lesson.LessonSeedData
 import com.example.codyssey.domain.LessonRepository
 import com.example.codyssey.model.Lesson
 import com.example.codyssey.model.LessonState
 
 object FakeLessonRepository : LessonRepository {
 
-    private var lessons = SeedData.defaultLessons
+    private var lessons = LessonSeedData.defaultLessons
 
     override suspend fun getLessons(): List<Lesson> {
         return lessons

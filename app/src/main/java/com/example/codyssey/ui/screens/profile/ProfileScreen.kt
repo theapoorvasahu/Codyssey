@@ -1,5 +1,6 @@
 package com.example.codyssey.ui.screens.profile
 
+import android.R.attr.level
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -15,6 +16,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -26,14 +28,34 @@ import com.example.codyssey.ui.components.SettingsSection
 import com.example.codyssey.ui.components.StatCard
 import com.example.codyssey.ui.theme.CodysseyTheme
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun ProfileScreen(
+    innerPadding: PaddingValues,
+    modifier: Modifier = Modifier,
+    viewModel: ProfileViewModel = hiltViewModel()
+) {
+
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    ProfileContent(
+        uiState = uiState,
+        innerPadding = innerPadding,
+        modifier = modifier
+    )
+}
+@Composable
+private fun ProfileContent(
+    uiState: ProfileUiState,
     innerPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
 
+    val profile = uiState.profile
 
     LazyColumn(
         modifier = modifier
@@ -57,11 +79,11 @@ fun ProfileScreen(
 
         item {
             ProfileHeader(
-                name = "Apoorva Sahu",
+                name = profile?.name ?: "",
                 level = 3,
-                xp = 600,
+                xp = profile?.xp ?: 0,
                 nextLevelXp = 1000,
-                streak = 12
+                streak = profile?.streak ?: 0
             )
         }
 
@@ -79,7 +101,7 @@ fun ProfileScreen(
                 StatCard(
                     modifier = Modifier.weight(1f),
                     title = "XP",
-                    value = "600"
+                    value = (profile?.xp ?: 0).toString()
                 )
             }
         }

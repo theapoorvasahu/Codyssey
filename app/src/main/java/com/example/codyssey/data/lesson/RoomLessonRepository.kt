@@ -1,12 +1,14 @@
-package com.example.codyssey.data.local
+package com.example.codyssey.data.lesson
 
 import com.example.codyssey.domain.LessonRepository
+import com.example.codyssey.domain.QuestRepository
 import com.example.codyssey.model.Lesson
+import com.example.codyssey.model.LessonState
 import javax.inject.Inject
-import com.example.codyssey.data.SeedData
 
 class RoomLessonRepository @Inject constructor(
-    private val lessonDao: LessonDao
+    private val lessonDao: LessonDao,
+    private val questRepository: QuestRepository
 ) : LessonRepository {
 
     override suspend fun getLessons(): List<Lesson> {
@@ -27,10 +29,24 @@ class RoomLessonRepository @Inject constructor(
         val lesson = lessonDao.getLesson(id) ?: return
 
         val updatedLesson = lesson.copy(
-            completed = true
+            state = LessonState.Completed
         )
 
         lessonDao.updateLesson(updatedLesson)
+
+        val questLessons = lessonDao.getLessonsForQuest(
+            lesson.questId
+        )
+
+        val allCompleted = questLessons.all {
+            it.state == LessonState.Completed
+        }
+
+        if (allCompleted) {
+            questRepository.unlockQuest(
+                lesson.questId + 1
+            )
+        }
     }
 
     private suspend fun seedDatabaseIfNeeded() {
@@ -38,7 +54,7 @@ class RoomLessonRepository @Inject constructor(
         if (lessonDao.getLessonCount() == 0) {
 
             lessonDao.insertLessons(
-                SeedData.defaultLessons.map { it.toEntity() }
+                LessonSeedData.defaultLessons.map { it.toEntity() }
             )
 
         }

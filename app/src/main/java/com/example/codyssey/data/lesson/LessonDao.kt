@@ -1,4 +1,5 @@
-package com.example.codyssey.data.local
+package com.example.codyssey.data.lesson
+
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -20,9 +21,18 @@ interface LessonDao {
     @Update
     suspend fun updateLesson(lesson: LessonEntity)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.Companion.IGNORE)
     suspend fun insertLessons(
         lessons: List<LessonEntity>
     )
+
+    @Query("""
+    SELECT * FROM lessons
+    WHERE questId = :questId
+    ORDER BY id
+""")
+    suspend fun getLessonsForQuest(
+        questId: Int
+    ): List<LessonEntity>
 
 }
