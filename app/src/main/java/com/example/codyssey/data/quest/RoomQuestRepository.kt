@@ -35,4 +35,19 @@ class RoomQuestRepository @Inject constructor(
             )
         }
     }
+
+    override suspend fun completeQuest(id: Int) {
+
+        val quest = questDao.getQuest(id) ?: return
+
+        val updatedQuest = quest.copy(
+            completed = true
+        )
+
+        questDao.updateQuest(updatedQuest)
+    }
+
+    override suspend fun getQuest(id: Int): Quest? {
+        return questDao.getQuest(id)?.toQuest()
+    }
 }

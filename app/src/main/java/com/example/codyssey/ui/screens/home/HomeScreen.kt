@@ -62,9 +62,7 @@ fun HomeScreen(
             QuestCard(
                 title = quest.title,
                 description = quest.description,
-                onContinue = {
-                    viewModel.completeLesson()
-                }
+                onContinue = {  }
             )
 
         }

@@ -8,5 +8,5 @@ interface UserProfileRepository {
 
     suspend fun addXp(amount: Int)
 
-    suspend fun recordLessonOpened()
+    suspend fun recordLessonCompleted()
 }

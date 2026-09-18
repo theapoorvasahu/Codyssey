@@ -28,7 +28,7 @@ class RoomUserProfileRepository @Inject constructor(
         userProfileDao.updateProfile(updatedProfile)
     }
 
-    override suspend fun recordLessonOpened() {
+    override suspend fun recordLessonCompleted() {
 
         val profile = userProfileDao.getProfile() ?: return
 

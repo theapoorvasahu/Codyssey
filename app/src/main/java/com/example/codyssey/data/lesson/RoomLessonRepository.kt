@@ -2,13 +2,16 @@ package com.example.codyssey.data.lesson
 
 import com.example.codyssey.domain.LessonRepository
 import com.example.codyssey.domain.QuestRepository
+import com.example.codyssey.domain.UserProfileRepository
 import com.example.codyssey.model.Lesson
 import com.example.codyssey.model.LessonState
 import javax.inject.Inject
 
+
 class RoomLessonRepository @Inject constructor(
     private val lessonDao: LessonDao,
-    private val questRepository: QuestRepository
+    private val questRepository: QuestRepository,
+    private val userProfileRepository: UserProfileRepository
 ) : LessonRepository {
 
     override suspend fun getLessons(): List<Lesson> {
@@ -28,11 +31,17 @@ class RoomLessonRepository @Inject constructor(
 
         val lesson = lessonDao.getLesson(id) ?: return
 
+        if (lesson.state == LessonState.Completed) {
+            return
+        }
+
         val updatedLesson = lesson.copy(
             state = LessonState.Completed
         )
 
         lessonDao.updateLesson(updatedLesson)
+
+        userProfileRepository.recordLessonCompleted()
 
         val questLessons = lessonDao.getLessonsForQuest(
             lesson.questId
@@ -43,8 +52,21 @@ class RoomLessonRepository @Inject constructor(
         }
 
         if (allCompleted) {
+
+            questRepository.completeQuest(
+                lesson.questId
+            )
+
             questRepository.unlockQuest(
                 lesson.questId + 1
+            )
+
+            val quest = questRepository.getQuest(
+                lesson.questId
+            ) ?: return
+
+            userProfileRepository.addXp(
+                quest.xpReward
             )
         }
     }

@@ -4,38 +4,43 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.codyssey.data.FakeQuestRepository
+import androidx.lifecycle.viewModelScope
+import com.example.codyssey.domain.QuestRepository
+import com.example.codyssey.domain.UserProfileRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val questRepository: QuestRepository,
+    private val userProfileRepository: UserProfileRepository
+) : ViewModel() {
 
-    private val allQuests = FakeQuestRepository.getQuests()
-    private val initialState = HomeUiState(
-        xp = 34,
-        streak = 12,
-        currentTrack = "Android Development",
-        quests = allQuests
-    )
+    init {
+        loadHome()
+    }
 
-    var uiState by mutableStateOf(initialState)
+    private fun loadHome() {
+        viewModelScope.launch {
+
+            val quests = questRepository.getQuests()
+            val profile = userProfileRepository.getProfile()
+
+            uiState = uiState.copy(
+                quests = quests,
+                xp = profile.xp,
+                streak = profile.streak
+            )
+        }
+    }
+
+    var uiState by mutableStateOf(HomeUiState())
         private set
 
-    fun addXp() {
-        uiState = uiState.copy(
-            xp = uiState.xp + 10
-        )
-    }
 
-    fun completeLesson() {
-        val reward = uiState.quests.firstOrNull()?.xpReward ?: 0
-
-        uiState = uiState.copy(
-            streak = uiState.streak + 1,
-            xp = uiState.xp + reward,
-            progress = minOf(uiState.progress + 5, 100)
-        )
-    }
 
     fun reset() {
-        uiState = initialState
+        loadHome()
     }
 }
